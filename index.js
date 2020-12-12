@@ -23,7 +23,9 @@ io.on("connection", (socket) => {
 
   socket.on("start", (data) => {
     // console.log(`User Emit : ${data}`);
+const nowDate =  dayjs().locale("th").format()
     console.log(`${socket.id} : 💬`);
+	console.log("🕤: ", nowDate)
     const formatMsg = {
       id: socket.id,
       content: data,
