@@ -5,16 +5,23 @@ const app = express();
 const server = require("http").createServer(app);
 
 const dayjs = require("dayjs");
-const locale = require("dayjs/locale/th");
+var utc = require("dayjs/plugin/utc");
+var timezone = require("dayjs/plugin/timezone");
+var advanced = require("dayjs/plugin/advancedFormat");
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
+dayjs.extend(advanced);
+let day = dayjs()
+  .tz("Asia/Bangkok")
+  .format("DD/MM/YYYY HH:mm:ss");
 
 const io = require("socket.io")(server);
-
 const PORT = 4000;
 
 app.use(cors());
-
 app.get("/", (req, res) => {
-  res.send("Hello World");
+  res.send("Hello World At :", day);
   console.log(res.headersSent);
 });
 
@@ -23,15 +30,12 @@ io.on("connection", (socket) => {
 
   socket.on("start", (data) => {
     // console.log(`User Emit : ${data}`);
-const nowDate =  dayjs().locale("th").format()
     console.log(`${socket.id} : 💬`);
-	console.log("🕤: ", nowDate)
+    console.log(`🕤: ${day}`);
     const formatMsg = {
       id: socket.id,
       content: data,
-      createAt: dayjs()
-        .locale("th")
-        .format("HH:mm:ss"),
+      createAt: day,
     };
     io.emit("start", formatMsg);
   });
