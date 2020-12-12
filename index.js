@@ -12,9 +12,6 @@ var advanced = require("dayjs/plugin/advancedFormat");
 dayjs.extend(utc);
 dayjs.extend(timezone);
 dayjs.extend(advanced);
-let day = dayjs()
-  .tz("Asia/Bangkok")
-  .format("DD/MM/YYYY HH:mm:ss");
 
 const io = require("socket.io")(server);
 const PORT = 4000;
@@ -29,7 +26,9 @@ io.on("connection", (socket) => {
   console.log(`🐤 User has Connected : ${socket.id}`);
 
   socket.on("start", (data) => {
-    // console.log(`User Emit : ${data}`);
+    let day = dayjs()
+      .tz("Asia/Bangkok")
+      .format("DD/MM/YYYY HH:mm:ss");
     console.log(`${socket.id} : 💬`);
     console.log(`🕤: ${day}`);
     const formatMsg = {
