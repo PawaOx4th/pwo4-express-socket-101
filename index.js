@@ -5,8 +5,7 @@ const app = express();
 const server = require("http").createServer(app);
 
 const dayjs = require("dayjs");
-const localizedFormat = require("dayjs/plugin/localizedFormat");
-dayjs.extend(localizedFormat);
+const locale = require("dayjs/locale/de");
 
 const io = require("socket.io")(server);
 
@@ -28,7 +27,9 @@ io.on("connection", (socket) => {
     const formatMsg = {
       id: socket.id,
       content: data,
-      createAt: dayjs().format("lll"),
+      createAt: dayjs()
+        .locale("th")
+        .format("HH:MM:ss"),
     };
     io.emit("start", formatMsg);
   });
