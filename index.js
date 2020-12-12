@@ -5,8 +5,14 @@ const app = express();
 const server = require("http").createServer(app);
 
 const dayjs = require("dayjs");
+const  utc =  require("dayjs/plugin/utc")
+const timezone = require("dayjs/plugin/timezone")
 const localizedFormat = require("dayjs/plugin/localizedFormat");
 dayjs.extend(localizedFormat);
+dayjs.extend(utc)
+dayjs.extend(timezone)
+
+dayjs.tz.setDefault("Asia/Bangkok")
 
 const io = require("socket.io")(server);
 
